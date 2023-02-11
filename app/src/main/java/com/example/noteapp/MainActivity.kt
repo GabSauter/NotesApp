@@ -1,16 +1,17 @@
 package com.example.noteapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.example.noteapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var noteAdapter: NoteAdapter
-
+    private lateinit var db: NoteDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,20 +19,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupRecyclerView()
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            NoteDatabase::class.java,
-            "note-database"
-        ).build()
+        db = NoteDatabase.getDatabase(this).noteDao()
 
-        val noteDao = db.noteDao()
+        lifecycleScope.launchWhenCreated {
+            noteAdapter.notes = db.getAll()
+        }
 
-        //val note = noteDao.getAll()
+        binding.btnAddNote.setOnClickListener {
+            val intent = Intent(this, NoteEditActivity::class.java)
+            intent.putExtra("type", 1)
+            startActivity(intent)
+        }
+
+
     }
 
     private fun setupRecyclerView() = binding.rvNotes.apply {
         noteAdapter = NoteAdapter()
         adapter = noteAdapter
         layoutManager = LinearLayoutManager(this@MainActivity)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launchWhenResumed {
+            noteAdapter.notes = db.getAll()
+        }
     }
 }

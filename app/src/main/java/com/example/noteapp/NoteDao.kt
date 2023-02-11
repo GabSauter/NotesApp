@@ -5,17 +5,17 @@ import androidx.room.*
 @Dao
 interface NoteDao {
     @Query ("SELECT * FROM note")
-    fun getAll() : List<Note>
+    suspend fun getAll() : List<Note>
 
     @Query ("SELECT * FROM note WHERE id IN (:noteId)")
-    fun getNote(noteId: Int) : Note
+    suspend fun getNote(noteId: Int) : Note
 
     @Insert
-    fun insertNote(note: Note)
+    suspend fun insertNote(note: Note)
 
     @Delete
-    fun deleteNote(note: Note)
+    suspend fun deleteNote(note: Note)
 
     @Update
-    fun updateNote(note: Note)
+    suspend fun updateNote(note: Note)
 }

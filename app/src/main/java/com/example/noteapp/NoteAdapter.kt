@@ -22,7 +22,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
-    private var notes: List<Note>
+    var notes: List<Note>
         get() = differ.currentList
         set(value) {differ.submitList(value)}
 

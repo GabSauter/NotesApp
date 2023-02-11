@@ -1,7 +1,9 @@
 package com.example.noteapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.noteapp.databinding.NoteEditBinding
 
 class NoteEditActivity : AppCompatActivity() {
@@ -13,6 +15,57 @@ class NoteEditActivity : AppCompatActivity() {
         binding = NoteEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val type: Int = intent.getIntExtra("type", 0)
+        val db = NoteDatabase.getDatabase(this).noteDao()
 
+        if (type == 1){ // Type 1 = create note
+            binding.btnEdit.text = "Create Note"
+
+            binding.btnEdit.setOnClickListener {
+                lifecycleScope.launchWhenCreated {
+
+                    if (binding.etTitleEdit.text != null && binding.etDescriptionEdit.text != null) {
+                        db.insertNote(
+                            Note(
+                                0,
+                                binding.etTitleEdit.text.toString(),
+                                binding.etDescriptionEdit.text.toString()
+                            )
+                        )
+
+                    } else {
+                        Toast.makeText(
+                            this@NoteEditActivity,
+                            "Please enter the fields some text",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    finish()
+                }
+            }
+
+        }else{ // Type != 1 = edit note
+            binding.btnEdit.text = "Edit Note"
+            binding.btnEdit.setOnClickListener {
+                lifecycleScope.launchWhenCreated {
+                    if (binding.etTitleEdit.text != null && binding.etDescriptionEdit.text != null) {
+                        db.updateNote(
+                            Note(
+                                0,
+                                binding.etTitleEdit.text.toString(),
+                                binding.etDescriptionEdit.text.toString()
+                            )
+                        )
+                    } else {
+                        Toast.makeText(
+                            this@NoteEditActivity,
+                            "Please enter the fields some text",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    finish()
+                }
+            }
+        }
     }
 }
