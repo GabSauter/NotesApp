@@ -1,5 +1,6 @@
 package com.example.noteapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -40,6 +41,12 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         holder.binding.apply {
             val note = notes[position]
             tvTitle.text = note.title
+        }
+
+        holder.binding.ibtnEdit.setOnClickListener {
+            val intent = Intent(it.context, NoteEditActivity::class.java)
+            intent.putExtra("type", 0)
+            it.context.startActivity(intent)
         }
     }
 }
