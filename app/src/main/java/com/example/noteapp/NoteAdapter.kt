@@ -39,10 +39,6 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         ))
     }
 
-//    override fun getItemViewType(position: Int): Int {
-//        return position
-//    }
-
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.binding.apply {
             val note = notes[position]
