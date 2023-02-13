@@ -16,6 +16,10 @@ class NoteEditActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val type: Int = intent.getIntExtra("type", 0)
+        val id = intent.getIntExtra("id", 0)
+        val title = intent.getStringExtra("title")
+        val description = intent.getStringExtra("description")
+
         val db = NoteDatabase.getDatabase(this).noteDao()
 
         if (type == 1){ // Type 1 = create note
@@ -46,16 +50,19 @@ class NoteEditActivity : AppCompatActivity() {
 
         }else{ // Type != 1 = edit note
             binding.btnEdit.text = "Edit Note"
+            binding.etTitleEdit.setText(title)
+            binding.etDescriptionEdit.setText(description)
             binding.btnEdit.setOnClickListener {
                 lifecycleScope.launchWhenCreated {
                     if (binding.etTitleEdit.text != null && binding.etDescriptionEdit.text != null) {
                         db.updateNote(
                             Note(
-                                0,
+                                id,
                                 binding.etTitleEdit.text.toString(),
                                 binding.etDescriptionEdit.text.toString()
                             )
                         )
+                    Toast.makeText(this@NoteEditActivity, id.toString(),Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(
                             this@NoteEditActivity,

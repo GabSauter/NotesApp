@@ -10,7 +10,7 @@ import com.example.noteapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var noteAdapter: NoteAdapter
+    lateinit var noteAdapter: NoteAdapter
     private lateinit var db: NoteDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
