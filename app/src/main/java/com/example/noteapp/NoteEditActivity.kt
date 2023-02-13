@@ -62,7 +62,6 @@ class NoteEditActivity : AppCompatActivity() {
                                 binding.etDescriptionEdit.text.toString()
                             )
                         )
-                    Toast.makeText(this@NoteEditActivity, id.toString(),Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(
                             this@NoteEditActivity,

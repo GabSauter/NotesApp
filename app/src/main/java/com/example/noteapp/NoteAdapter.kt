@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.databinding.NoteBinding
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
@@ -37,6 +39,10 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         ))
     }
 
+//    override fun getItemViewType(position: Int): Int {
+//        return position
+//    }
+
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         holder.binding.apply {
             val note = notes[position]
@@ -50,6 +56,15 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
             intent.putExtra("title", notes[position].title)
             intent.putExtra("description", notes[position].description)
             it.context.startActivity(intent)
+        }
+
+        holder.binding.ibtnDelete.setOnClickListener{
+            val db = NoteDatabase.getDatabase(holder.binding.ibtnEdit.context).noteDao()
+
+            MainScope().launch {
+                db.deleteNote(notes[holder.layoutPosition])
+                notes = db.getAll()
+            }
         }
     }
 }
