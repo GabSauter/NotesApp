@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
     }
 
     private fun setupRecyclerView() = binding.rvNotes.apply {

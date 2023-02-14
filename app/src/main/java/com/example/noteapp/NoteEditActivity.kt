@@ -28,7 +28,7 @@ class NoteEditActivity : AppCompatActivity() {
             binding.btnEdit.setOnClickListener {
                 lifecycleScope.launchWhenCreated {
 
-                    if (binding.etTitleEdit.text != null && binding.etDescriptionEdit.text != null) {
+                    if (binding.etTitleEdit.text.isNotEmpty() && binding.etDescriptionEdit.text.isNotEmpty()) {
                         db.insertNote(
                             Note(
                                 0,
@@ -36,7 +36,7 @@ class NoteEditActivity : AppCompatActivity() {
                                 binding.etDescriptionEdit.text.toString()
                             )
                         )
-
+                        finish()
                     } else {
                         Toast.makeText(
                             this@NoteEditActivity,
@@ -44,7 +44,6 @@ class NoteEditActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    finish()
                 }
             }
 
@@ -54,7 +53,7 @@ class NoteEditActivity : AppCompatActivity() {
             binding.etDescriptionEdit.setText(description)
             binding.btnEdit.setOnClickListener {
                 lifecycleScope.launchWhenCreated {
-                    if (binding.etTitleEdit.text != null && binding.etDescriptionEdit.text != null) {
+                    if (binding.etTitleEdit.text.isNotEmpty() && binding.etDescriptionEdit.text.isNotEmpty()) {
                         db.updateNote(
                             Note(
                                 id,
@@ -62,6 +61,7 @@ class NoteEditActivity : AppCompatActivity() {
                                 binding.etDescriptionEdit.text.toString()
                             )
                         )
+                        finish()
                     } else {
                         Toast.makeText(
                             this@NoteEditActivity,
@@ -69,7 +69,6 @@ class NoteEditActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                    finish()
                 }
             }
         }
