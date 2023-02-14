@@ -47,7 +47,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
         holder.binding.ibtnEdit.setOnClickListener {
             val intent = Intent(it.context, NoteEditActivity::class.java)
-            intent.putExtra("type", 0)
+            intent.putExtra("type", false)
             intent.putExtra("id", notes[holder.layoutPosition].id)
             intent.putExtra("title", notes[holder.layoutPosition].title)
             intent.putExtra("description", notes[holder.layoutPosition].description)

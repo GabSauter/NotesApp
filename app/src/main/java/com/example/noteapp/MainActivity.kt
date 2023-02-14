@@ -10,7 +10,7 @@ import com.example.noteapp.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var noteAdapter: NoteAdapter
+    private lateinit var noteAdapter: NoteAdapter
     private lateinit var db: NoteDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnAddNote.setOnClickListener {
             val intent = Intent(this, NoteEditActivity::class.java)
-            intent.putExtra("type", 1)
+            intent.putExtra("type", true)
             startActivity(intent)
         }
 

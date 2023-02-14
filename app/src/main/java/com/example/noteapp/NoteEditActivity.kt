@@ -15,14 +15,14 @@ class NoteEditActivity : AppCompatActivity() {
         binding = NoteEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val type: Int = intent.getIntExtra("type", 0)
+        val typeCreate: Boolean = intent.getBooleanExtra("type", false)
         val id = intent.getIntExtra("id", 0)
         val title = intent.getStringExtra("title")
         val description = intent.getStringExtra("description")
 
         val db = NoteDatabase.getDatabase(this).noteDao()
 
-        if (type == 1){ // Type 1 = create note
+        if (typeCreate){ // Type 1 = create note
             binding.btnEdit.text = "Create Note"
 
             binding.btnEdit.setOnClickListener {
