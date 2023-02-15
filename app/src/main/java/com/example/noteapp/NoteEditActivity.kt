@@ -23,7 +23,7 @@ class NoteEditActivity : AppCompatActivity() {
         val db = NoteDatabase.getDatabase(this).noteDao()
 
         if (typeCreate){ // Type 1 = create note
-            binding.btnEdit.text = "Create Note"
+            binding.btnEdit.text = getString(R.string.create_note)
 
             binding.btnEdit.setOnClickListener {
                 lifecycleScope.launchWhenCreated {
@@ -48,7 +48,7 @@ class NoteEditActivity : AppCompatActivity() {
             }
 
         }else{ // Type != 1 = edit note
-            binding.btnEdit.text = "Edit Note"
+            binding.btnEdit.text = getString(R.string.edit_note)
             binding.etTitleEdit.setText(title)
             binding.etDescriptionEdit.setText(description)
             binding.btnEdit.setOnClickListener {
