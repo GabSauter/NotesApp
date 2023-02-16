@@ -20,5 +20,5 @@ interface NoteDao {
     suspend fun updateNote(note: Note)
 
     @Query("SELECT * FROM note WHERE title LIKE :searchQuery")
-    fun searchDatabase(searchQuery: String): List<Note>
+    suspend fun searchDatabase(searchQuery: String): List<Note>
 }

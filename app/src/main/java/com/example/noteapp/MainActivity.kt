@@ -3,11 +3,15 @@ package com.example.noteapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var noteAdapter: NoteAdapter
@@ -43,6 +47,34 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         lifecycleScope.launchWhenResumed {
             noteAdapter.notes = db.getAll()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+
+        val search = menu?.findItem(R.id.menu_search)
+        val searchView = search?.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+
+        return true
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        if(newText != null)
+            searchDatabase(newText)
+        return true
+    }
+
+    private fun searchDatabase(query: String){
+        val searchQuery = "%$query%"
+        MainScope().launch {
+            noteAdapter.notes = db.searchDatabase(searchQuery)
         }
     }
 }
